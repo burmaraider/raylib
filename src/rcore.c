@@ -2188,7 +2188,7 @@ void EndDrawing(void)
         if (((gifFrameCounter/15)%2) == 1)
         {
             DrawCircle(30, CORE.Window.screen.height - 20, 10, MAROON);                 // WARNING: Module required: rshapes
-            DrawText("GIF RECORDING", 50, CORE.Window.screen.height - 25, 10, RED);     // WARNING: Module required: rtext
+            DrawTextRay("GIF RECORDING", 50, CORE.Window.screen.height - 25, 10, RED);     // WARNING: Module required: rtext
         }
     #endif
 
@@ -2205,7 +2205,7 @@ void EndDrawing(void)
         if (((gifFrameCounter/15)%2) == 1)
         {
             DrawCircle(30, CORE.Window.screen.height - 20, 10, MAROON);
-            DrawText("EVENTS RECORDING", 50, CORE.Window.screen.height - 25, 10, RED);
+            DrawTextRay("EVENTS RECORDING", 50, CORE.Window.screen.height - 25, 10, RED);
         }
 
         rlDrawRenderBatchActive();  // Update and draw internal render batch
@@ -2217,7 +2217,7 @@ void EndDrawing(void)
         if (((gifFrameCounter/15)%2) == 1)
         {
             DrawCircle(30, CORE.Window.screen.height - 20, 10, LIME);
-            DrawText("EVENTS PLAYING", 50, CORE.Window.screen.height - 25, 10, GREEN);
+            DrawTextRay("EVENTS PLAYING", 50, CORE.Window.screen.height - 25, 10, GREEN);
         }
 
         rlDrawRenderBatchActive();  // Update and draw internal render batch

@@ -1235,7 +1235,7 @@ RLAPI Rect GetCollisionRec(Rect rec1, Rect rec2);                               
 
 // Image loading functions
 // NOTE: These functions do not require GPU access
-RLAPI Image LoadImage(const char *fileName);                                                             // Load image from file into CPU memory (RAM)
+RLAPI Image LoadImageRay(const char *fileName);                                                             // Load image from file into CPU memory (RAM)
 RLAPI Image LoadImageRaw(const char *fileName, int width, int height, int format, int headerSize);       // Load image from RAW file data
 RLAPI Image LoadImageAnim(const char *fileName, int *frames);                                            // Load image sequence from file (frames appended to image.data)
 RLAPI Image LoadImageFromMemory(const char *fileType, const unsigned char *fileData, int dataSize);      // Load image from memory buffer, fileType refers to extension: i.e. '.png'
@@ -1375,8 +1375,8 @@ RLAPI bool ExportFontAsCode(Font font, const char *fileName);                   
 
 // Text drawing functions
 RLAPI void DrawFPS(int posX, int posY);                                                     // Draw current FPS
-RLAPI void DrawText(const char *text, int posX, int posY, int fontSize, Color color);       // Draw text (using default font)
-RLAPI void DrawTextEx(Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint); // Draw text using font and additional parameters
+RLAPI void DrawTextRay(const char *text, int posX, int posY, int fontSize, Color color);       // Draw text (using default font)
+RLAPI void DrawTextExRay(Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint); // Draw text using font and additional parameters
 RLAPI void DrawTextPro(Font font, const char *text, Vector2 position, Vector2 origin, float rotation, float fontSize, float spacing, Color tint); // Draw text using Font and pro parameters (rotation)
 RLAPI void DrawTextCodepoint(Font font, int codepoint, Vector2 position, float fontSize, Color tint); // Draw one character (codepoint)
 RLAPI void DrawTextCodepoints(Font font, const int *codepoints, int count, Vector2 position, float fontSize, float spacing, Color tint); // Draw multiple character (codepoint)
@@ -1539,8 +1539,8 @@ RLAPI bool ExportWave(Wave wave, const char *fileName);               // Export 
 RLAPI bool ExportWaveAsCode(Wave wave, const char *fileName);         // Export wave sample data to code (.h), returns true on success
 
 // Wave/Sound management functions
-RLAPI void PlaySound(Sound sound);                                    // Play a sound
-RLAPI void StopSound(Sound sound);                                    // Stop playing a sound
+RLAPI void SoundPlay(Sound sound);                                    // Play a sound
+RLAPI void SoundStop(Sound sound);                                    // Stop playing a sound
 RLAPI void PauseSound(Sound sound);                                   // Pause a sound
 RLAPI void ResumeSound(Sound sound);                                  // Resume a paused sound
 RLAPI bool IsSoundPlaying(Sound sound);                               // Check if a sound is currently playing

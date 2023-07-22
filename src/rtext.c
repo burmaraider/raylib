@@ -7,8 +7,8 @@
 *           rtext module is included in the build
 *
 *       #define SUPPORT_DEFAULT_FONT
-*           Load default raylib font on initialization to be used by DrawText() and MeasureText().
-*           If no default font loaded, DrawTextEx() and MeasureTextEx() are required.
+*           Load default raylib font on initialization to be used by DrawTextRay() and MeasureText().
+*           If no default font loaded, DrawTextExRay() and MeasureTextEx() are required.
 *
 *       #define SUPPORT_FILEFORMAT_FNT
 *       #define SUPPORT_FILEFORMAT_TTF
@@ -327,7 +327,7 @@ Font LoadFont(const char *fileName)
     else
 #endif
     {
-        Image image = LoadImage(fileName);
+        Image image = LoadImageRay(fileName);
         if (image.data != NULL) font = LoadFontFromImage(image, MAGENTA, FONT_TTF_DEFAULT_FIRST_CHAR);
         UnloadImage(image);
     }
@@ -1066,13 +1066,13 @@ void DrawFPS(int posX, int posY)
     if ((fps < 30) && (fps >= 15)) color = ORANGE;  // Warning FPS
     else if (fps < 15) color = RED;             // Low FPS
 
-    DrawText(TextFormat("%2i FPS", GetFPS()), posX, posY, 20, color);
+    DrawTextRay(TextFormat("%2i FPS", GetFPS()), posX, posY, 20, color);
 }
 
 // Draw text (using default font)
 // NOTE: fontSize work like in any drawing program but if fontSize is lower than font-base-size, then font-base-size is used
 // NOTE: chars spacing is proportional to fontSize
-void DrawText(const char *text, int posX, int posY, int fontSize, Color color)
+void DrawTextRay(const char *text, int posX, int posY, int fontSize, Color color)
 {
     // Check if default font has been loaded
     if (GetFontDefault().texture.id != 0)
@@ -1083,13 +1083,13 @@ void DrawText(const char *text, int posX, int posY, int fontSize, Color color)
         if (fontSize < defaultFontSize) fontSize = defaultFontSize;
         int spacing = fontSize/defaultFontSize;
 
-        DrawTextEx(GetFontDefault(), text, position, (float)fontSize, (float)spacing, color);
+        DrawTextExRay(GetFontDefault(), text, position, (float)fontSize, (float)spacing, color);
     }
 }
 
 // Draw text using Font
 // NOTE: chars spacing is NOT proportional to fontSize
-void DrawTextEx(Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint)
+void DrawTextExRay(Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint)
 {
     if (font.texture.id == 0) font = GetFontDefault();  // Security check in case of not valid font
 
@@ -1137,7 +1137,7 @@ void DrawTextPro(Font font, const char *text, Vector2 position, Vector2 origin, 
         rlRotatef(rotation, 0.0f, 0.0f, 1.0f);
         rlTranslatef(-origin.x, -origin.y, 0.0f);
 
-        DrawTextEx(font, text, (Vector2){ 0.0f, 0.0f }, fontSize, spacing, tint);
+        DrawTextExRay(font, text, (Vector2){ 0.0f, 0.0f }, fontSize, spacing, tint);
 
     rlPopMatrix();
 }
@@ -2061,7 +2061,7 @@ static Font LoadBMFont(const char *fileName)
 
     TRACELOGD("    > Image loading path: %s", imPath);
 
-    Image imFont = LoadImage(imPath);
+    Image imFont = LoadImageRay(imPath);
 
     if (imFont.format == PIXELFORMAT_UNCOMPRESSED_GRAYSCALE)
     {

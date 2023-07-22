@@ -230,7 +230,7 @@ static Vector4 *LoadImageDataNormalized(Image image);       // Load pixel data f
 //----------------------------------------------------------------------------------
 
 // Load image from file into CPU memory (RAM)
-Image LoadImage(const char *fileName)
+Image LoadImageRay(const char *fileName)
 {
     Image image = { 0 };
 
@@ -321,7 +321,7 @@ Image LoadImageAnim(const char *fileName, int *frames)
 #endif
     else
     {
-        image = LoadImage(fileName);
+        image = LoadImageRay(fileName);
         frameCount = 1;
     }
 
@@ -3319,7 +3319,7 @@ Texture2D LoadTexture(const char *fileName)
 {
     Texture2D texture = { 0 };
 
-    Image image = LoadImage(fileName);
+    Image image = LoadImageRay(fileName);
 
     if (image.data != NULL)
     {
