@@ -234,7 +234,7 @@ extern void LoadFontDefault(void)
     // Allocate space for our characters info data
     // NOTE: This memory must be freed at end! --> Done by CloseWindow()
     defaultFont.glyphs = (GlyphInfo *)RL_MALLOC(defaultFont.glyphCount*sizeof(GlyphInfo));
-    defaultFont.recs = (Rectangle *)RL_MALLOC(defaultFont.glyphCount*sizeof(Rectangle));
+    defaultFont.recs = (Rect *)RL_MALLOC(defaultFont.glyphCount*sizeof(Rect));
 
     int currentLine = 0;
     int currentPosX = charsDivisor;
@@ -389,7 +389,7 @@ Font LoadFontFromImage(Image image, Color key, int firstChar)
     // We allocate a temporal arrays for chars data measures,
     // once we get the actual number of chars, we copy data to a sized arrays
     int tempCharValues[MAX_GLYPHS_FROM_IMAGE] = { 0 };
-    Rectangle tempCharRecs[MAX_GLYPHS_FROM_IMAGE] = { 0 };
+    Rect tempCharRecs[MAX_GLYPHS_FROM_IMAGE] = { 0 };
 
     Color *pixels = LoadImageColors(image);
 
@@ -469,7 +469,7 @@ Font LoadFontFromImage(Image image, Color key, int firstChar)
     // We got tempCharValues and tempCharsRecs populated with chars data
     // Now we move temp data to sized charValues and charRecs arrays
     font.glyphs = (GlyphInfo *)RL_MALLOC(font.glyphCount*sizeof(GlyphInfo));
-    font.recs = (Rectangle *)RL_MALLOC(font.glyphCount*sizeof(Rectangle));
+    font.recs = (Rect *)RL_MALLOC(font.glyphCount*sizeof(Rect));
 
     for (int i = 0; i < font.glyphCount; i++)
     {
@@ -679,7 +679,7 @@ GlyphInfo *LoadFontData(const unsigned char *fileData, int dataSize, int fontSiz
 // Generate image font atlas using chars info
 // NOTE: Packing method: 0-Default, 1-Skyline
 #if defined(SUPPORT_FILEFORMAT_TTF)
-Image GenImageFontAtlas(const GlyphInfo *chars, Rectangle **charRecs, int glyphCount, int fontSize, int padding, int packMethod)
+Image GenImageFontAtlas(const GlyphInfo *chars, Rect **charRecs, int glyphCount, int fontSize, int padding, int packMethod)
 {
     Image atlas = { 0 };
 
@@ -695,7 +695,7 @@ Image GenImageFontAtlas(const GlyphInfo *chars, Rectangle **charRecs, int glyphC
     glyphCount = (glyphCount > 0)? glyphCount : 95;
 
     // NOTE: Rectangles memory is loaded here!
-    Rectangle *recs = (Rectangle *)RL_MALLOC(glyphCount*sizeof(Rectangle));
+    Rect *recs = (Rect *)RL_MALLOC(glyphCount*sizeof(Rect));
 
     // Calculate image size based on total glyph width and glyph row count
     int totalWidth = 0;
@@ -1152,14 +1152,14 @@ void DrawTextCodepoint(Font font, int codepoint, Vector2 position, float fontSiz
 
     // Character destination rectangle on screen
     // NOTE: We consider glyphPadding on drawing
-    Rectangle dstRec = { position.x + font.glyphs[index].offsetX*scaleFactor - (float)font.glyphPadding*scaleFactor,
+    Rect dstRec = { position.x + font.glyphs[index].offsetX*scaleFactor - (float)font.glyphPadding*scaleFactor,
                       position.y + font.glyphs[index].offsetY*scaleFactor - (float)font.glyphPadding*scaleFactor,
                       (font.recs[index].width + 2.0f*font.glyphPadding)*scaleFactor,
                       (font.recs[index].height + 2.0f*font.glyphPadding)*scaleFactor };
 
     // Character source rectangle from font texture atlas
     // NOTE: We consider chars padding when drawing, it could be required for outline/glow shader effects
-    Rectangle srcRec = { font.recs[index].x - (float)font.glyphPadding, font.recs[index].y - (float)font.glyphPadding,
+    Rect srcRec = { font.recs[index].x - (float)font.glyphPadding, font.recs[index].y - (float)font.glyphPadding,
                          font.recs[index].width + 2.0f*font.glyphPadding, font.recs[index].height + 2.0f*font.glyphPadding };
 
     // Draw the character texture on the screen
@@ -1320,9 +1320,9 @@ GlyphInfo GetGlyphInfo(Font font, int codepoint)
 
 // Get glyph rectangle in font atlas for a codepoint (unicode character)
 // NOTE: If codepoint is not found in the font it fallbacks to '?'
-Rectangle GetGlyphAtlasRec(Font font, int codepoint)
+Rect GetGlyphAtlasRec(Font font, int codepoint)
 {
-    Rectangle rec = { 0 };
+    Rect rec = { 0 };
 
     rec = font.recs[GetGlyphIndex(font, codepoint)];
 
@@ -2093,7 +2093,7 @@ static Font LoadBMFont(const char *fileName)
     font.glyphCount = glyphCount;
     font.glyphPadding = 0;
     font.glyphs = (GlyphInfo *)RL_MALLOC(glyphCount*sizeof(GlyphInfo));
-    font.recs = (Rectangle *)RL_MALLOC(glyphCount*sizeof(Rectangle));
+    font.recs = (Rect *)RL_MALLOC(glyphCount*sizeof(Rect));
 
     int charId, charX, charY, charWidth, charHeight, charOffsetX, charOffsetY, charAdvanceX;
 
@@ -2105,7 +2105,7 @@ static Font LoadBMFont(const char *fileName)
         fileTextPtr += (lineBytes + 1);
 
         // Get character rectangle in the font atlas texture
-        font.recs[i] = (Rectangle){ (float)charX, (float)charY, (float)charWidth, (float)charHeight };
+        font.recs[i] = (Rect){ (float)charX, (float)charY, (float)charWidth, (float)charHeight };
 
         // Save data properly in sprite font
         font.glyphs[i].value = charId;

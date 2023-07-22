@@ -888,9 +888,9 @@ void InitWindow(int width, int height, const char *title)
     // WARNING: External function: Module required: rtext
     LoadFontDefault();
     #if defined(SUPPORT_MODULE_RSHAPES)
-    Rectangle rec = GetFontDefault().recs[95];
+    Rect rec = GetFontDefault().recs[95];
     // NOTE: We set up a 1px padding on char rectangle to avoid pixel bleeding on MSAA filtering
-    SetShapesTexture(GetFontDefault().texture, (Rectangle){ rec.x + 1, rec.y + 1, rec.width - 2, rec.height - 2 }); // WARNING: Module required: rshapes
+    SetShapesTexture(GetFontDefault().texture, (Rect){ rec.x + 1, rec.y + 1, rec.width - 2, rec.height - 2 }); // WARNING: Module required: rshapes
     #endif
 #else
     #if defined(SUPPORT_MODULE_RSHAPES)
@@ -956,7 +956,7 @@ void InitWindow(int width, int height, const char *title)
 }
 
 // Close window and unload OpenGL context
-void CloseWindow(void)
+void ExitWindow(void)
 {
 #if defined(SUPPORT_GIF_RECORDING)
     if (gifRecording)
@@ -2075,7 +2075,7 @@ void DisableEventWaiting(void)
 }
 
 // Show mouse cursor
-void ShowCursor(void)
+void EnableCursor(void)
 {
 #if defined(PLATFORM_DESKTOP)
     glfwSetInputMode(CORE.Window.handle, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -2101,7 +2101,7 @@ bool IsCursorHidden(void)
 }
 
 // Enables cursor (unlock cursor)
-void EnableCursor(void)
+void UnlockCursor(void)
 {
 #if defined(PLATFORM_DESKTOP)
     glfwSetInputMode(CORE.Window.handle, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -2116,7 +2116,7 @@ void EnableCursor(void)
 }
 
 // Disables cursor (lock cursor)
-void DisableCursor(void)
+void LockCursor(void)
 {
 #if defined(PLATFORM_DESKTOP)
     glfwSetInputMode(CORE.Window.handle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
